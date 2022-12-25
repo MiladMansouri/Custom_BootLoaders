@@ -42,7 +42,7 @@ uint8_t ReciveBuffer[10];
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-static int8_t jump = 0;
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
