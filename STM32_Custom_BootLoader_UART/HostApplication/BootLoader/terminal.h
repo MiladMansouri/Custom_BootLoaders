@@ -13,7 +13,8 @@ public:
   explicit Terminal(QObject *parent = nullptr);
 
   QList<QString> portList() const;
-
+  Q_INVOKABLE bool openPort(QString name);
+  Q_INVOKABLE bool sendData(QString data);
 signals:
 
   void portListChanged();
