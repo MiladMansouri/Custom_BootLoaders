@@ -2,6 +2,7 @@
 #define TERMINAL_H
 
 #include <QDebug>
+#include <QIODevice>
 #include <QObject>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
@@ -14,6 +15,7 @@ public:
 
   QList<QString> portList() const;
   Q_INVOKABLE bool openPort(QString name);
+  Q_INVOKABLE void closePort(void);
   Q_INVOKABLE bool sendData(QString data);
 signals:
 

@@ -42,14 +42,21 @@ Window {
             id: btnOpenPort
             width: 100
             height: 30
-            text: qsTr("Button")
+            text: qsTr("Open Port")
             onClicked: {
-                console.log(cbPorts.currentValue)
-                var res = terminal.openPort(cbPorts.currentValue)
-                if (res)
-                    console.log("PORT " + cbPorts.currentValue + " Opend")
-                else
-                    console.log("Could't open " + cbPorts.currentValue)
+                if (btnOpenPort.text === "Open Port") {
+                    var res = terminal.openPort(cbPorts.currentValue)
+                    if (res) {
+                        console.log("PORT " + cbPorts.currentValue + " Opend")
+                        btnOpenPort.text = "Close Port"
+                    } else {
+                        console.log("Could't open " + cbPorts.currentValue)
+                    }
+                } else {
+                    terminal.closePort()
+                    btnOpenPort.text = "Open Port"
+                    console.log("Port Closed!")
+                }
             }
         }
     }
@@ -62,7 +69,7 @@ Window {
         height: 52
         text: qsTr("Button")
         onClicked: {
-
+            terminal.sendData("10")
         }
     }
     Component.onCompleted: {

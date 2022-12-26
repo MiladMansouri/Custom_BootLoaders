@@ -134,3 +134,11 @@
 187	426	6936833888783219	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader_part0.pbi	8bdbab278ee79ffe
 433	627	6936833890797825	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader.pbd	cfde3d354fcd6201
 634	1688	6936833901121519	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader.pbw	51758fe94bce1e20
+2	200	6937731741248893	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/Application/User/Core/main.pbi	ad8659554aa15567
+204	994	6937731749189124	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader_part0.pbi	8bdbab278ee79ffe
+1002	1714	6937731756386766	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader.pbd	cfde3d354fcd6201
+1720	3373	6937731772682866	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader.pbw	51758fe94bce1e20
+3	303	6937742690832671	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/Application/User/Core/main.pbi	ad8659554aa15567
+307	541	6937742693216285	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader_part0.pbi	8bdbab278ee79ffe
+549	750	6937742695300714	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader.pbd	cfde3d354fcd6201
+757	1816	6937742705653041	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/BootLoader/EWARM/bootLoader/BrowseInfo/bootLoader.pbw	51758fe94bce1e20
