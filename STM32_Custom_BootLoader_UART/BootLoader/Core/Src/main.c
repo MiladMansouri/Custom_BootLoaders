@@ -115,14 +115,13 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_RESET);
   /* USER CODE END 2 */
-  
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_UART_Transmit(&huart2,"BootLoader!\r\n",15,1000);
-    HAL_UART_Receive(&huart2,ReciveBuffer,2,1000);
-    
+//    HAL_UART_Transmit(&huart2,"BootLoader!\r\n",15,1000);
+//    HAL_UART_Receive(&huart2,ReciveBuffer,2,1000);
+//    
     if((ReciveBuffer[0] == 0x31) && (ReciveBuffer[1] == 0x30))
     {
       bootLoaderProcessing();

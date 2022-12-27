@@ -13,26 +13,26 @@ uint8_t reciveSize  = 0u;
 */
 void bootLoaderProcessing(void)
 {
-  HAL_UART_Transmit(&huart2,"Start bootLoader Processing!\r\n",30,1000);
-  while(1)
-  {
-    reciveSize = 0;
-    HAL_UART_Receive(&huart2,&blBuffer[0],1,HAL_MAX_DELAY);
-    reciveSize = blBuffer[0] - '0';
-    HAL_UART_Receive(&huart2,&blBuffer[1],reciveSize,HAL_MAX_DELAY);
-    switch (blBuffer[1])
-    {
-      case BL_GET_VERSION:
-      {
-        bootLoaderGetVersionProcessing();
-      }break;
-      default:
-      {
-        memset(blBuffer,0,BUFFER_SIZE);
-      }break;
-      
-    }
-  }
+//  HAL_UART_Transmit(&huart2,"Start bootLoader Processing!\r\n",30,1000);
+//  while(1)
+//  {
+//    reciveSize = 0;
+//    HAL_UART_Receive(&huart2,&blBuffer[0],1,HAL_MAX_DELAY);
+//    reciveSize = blBuffer[0] - '0';
+//    HAL_UART_Receive(&huart2,&blBuffer[1],reciveSize,HAL_MAX_DELAY);
+//    switch (blBuffer[1])
+//    {
+//      case BL_GET_VERSION:
+//      {
+//        bootLoaderGetVersionProcessing();
+//      }break;
+//      default:
+//      {
+//        memset(blBuffer,0,BUFFER_SIZE);
+//      }break;
+//      
+//    }
+//  }
 }
 /*
  return BootLoader Version

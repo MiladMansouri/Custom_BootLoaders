@@ -130,7 +130,9 @@ int main(void)
   HAL_GPIO_WritePin(GLED_GPIO_Port,GLED_Pin,GPIO_PIN_RESET);
   HAL_GPIO_WritePin(RLED_GPIO_Port,RLED_Pin,GPIO_PIN_SET);
   /* USER CODE END 2 */
-
+  HAL_FLASH_Unlock();
+  HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,0x8007F90,8585);
+   HAL_FLASH_Lock();
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
