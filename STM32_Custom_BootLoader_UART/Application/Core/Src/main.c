@@ -19,7 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "crc.h"
-#include "i2c.h"
+#include "iwdg.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -31,7 +31,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define BOOT_LOADER_ADDRESS 0x08000000U
+#define VECTOR_TABLE_OFFSET 0x0U
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -46,15 +47,15 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+#define bufferSize 255
+uint8_t Rx_data[2] = {0}, Rx_Buffer[bufferSize] = {0};
+uint8_t Transfer_cplt = 0, Rx_indx = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-uint8_t data[200];
-#define BOOT_LOADER_ADDRESS 0x08000000U
-#define VECTOR_TABLE_OFFSET 0x0U
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -93,6 +94,29 @@ void jumpToBootLoader(void)
   resetHandler();
 }
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if(huart->Instance == USART2)
+  {
+//    if (Rx_indx == 0) 
+//    {
+//      for (uint8_t i = 0; i < bufferSize; i++) 
+//        Rx_Buffer[i] = 0; 
+//    }   
+    if(Rx_data[0] != '\n') //if received data different from ascii 13 (enter)
+    {
+      Rx_Buffer[Rx_indx++] = Rx_data[0];     //add data to Rx_Buffer
+    }
+    else            //if received data = 13
+    {
+      Rx_indx = 0;
+      Transfer_cplt = 1; //received complete, data is ready to read
+    }
+    HAL_UART_Receive_IT(&huart2, Rx_data, 1);
+  }
+  else
+  {}
+}
 /* USER CODE END 0 */
 
 /**
@@ -124,35 +148,39 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CRC_Init();
-  MX_I2C1_Init();
   MX_USART2_UART_Init();
+  MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(GLED_GPIO_Port,GLED_Pin,GPIO_PIN_RESET);
   HAL_GPIO_WritePin(RLED_GPIO_Port,RLED_Pin,GPIO_PIN_SET);
   /* USER CODE END 2 */
-
+  HAL_IWDG_Refresh(&hiwdg);
+  HAL_UART_Receive_IT(&huart2, Rx_data, 1);
+  HAL_UART_Transmit(&huart2,"Application Start\r\n",19,500);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_UART_Receive(&huart2,data,2,HAL_MAX_DELAY);
-    HAL_UART_Transmit(&huart2,data,2,1000);
-    if((0x31 == data[0]) && (0x30 == data[1]))
+    
+    if(Transfer_cplt == 1)
     {
-      HAL_UART_Transmit(&huart2,data,2,1000);
-      memcpy(data,0,200);
-      HAL_GPIO_WritePin(GLED_GPIO_Port,GLED_Pin,GPIO_PIN_SET);
-      HAL_GPIO_WritePin(RLED_GPIO_Port,RLED_Pin,GPIO_PIN_RESET);
-      HAL_UART_Transmit(&huart2,"Jump To BootLoader!\r\n",20,1000);
-      jumpToBootLoader();
-      
+      Transfer_cplt = 0;
+      if(Rx_Buffer[0] == 0x40)
+      {
+        HAL_UART_Transmit(&huart2,"Jump To BootLoader\r\n",20,500);
+       *(volatile uint8_t*)0x20004FFF = 0x20U;
+       *(volatile uint8_t*)0x20004FFE = 0x30U;
+       *(volatile uint8_t*)0x20004FFD = 0x40U;
+       *(volatile uint8_t*)0x20004FFC = 0x50U;
+       HAL_NVIC_SystemReset();
+        //jumpToBootLoader();
+      }
     }
     else
     {
-      HAL_UART_Transmit(&huart2,"Wrong CMD!\r\n",13,1000);
-      memcpy(data,0,200);
+      
     }
-    
+    HAL_IWDG_Refresh(&hiwdg);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -172,10 +200,11 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
