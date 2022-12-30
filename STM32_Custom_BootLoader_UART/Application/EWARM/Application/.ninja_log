@@ -161,3 +161,9 @@
 877	997	6938486415726303	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	3241b4ce4a1ec394
 1038	1063	6938486416511506	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	3d5674d17f45e523
 >>>>>>> 3831ada184fb707c389b21c64c547f811064e1c7
+1	268	6941318087437898	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/main.o	3626ea9694701b9c
+275	348	6941318088295543	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	5012880e94a1f5ae
+374	383	6941318088714424	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	58300ac80ef4d69d
+1	191	6941318178390152	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/main.o	3626ea9694701b9c
+199	266	6941318179163087	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	5012880e94a1f5ae
+293	301	6941318179582020	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	58300ac80ef4d69d
