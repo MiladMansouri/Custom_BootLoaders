@@ -154,9 +154,15 @@ int main(void)
   HAL_GPIO_WritePin(GLED_GPIO_Port,GLED_Pin,GPIO_PIN_RESET);
   HAL_GPIO_WritePin(RLED_GPIO_Port,RLED_Pin,GPIO_PIN_SET);
   /* USER CODE END 2 */
+<<<<<<< HEAD
   HAL_IWDG_Refresh(&hiwdg);
   HAL_UART_Receive_IT(&huart2, Rx_data, 1);
   HAL_UART_Transmit(&huart2,"Application Start\r\n",19,500);
+=======
+  HAL_FLASH_Unlock();
+  HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,0x8007F90,8585);
+   HAL_FLASH_Lock();
+>>>>>>> 3831ada184fb707c389b21c64c547f811064e1c7
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)

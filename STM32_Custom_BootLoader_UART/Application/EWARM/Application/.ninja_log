@@ -75,6 +75,7 @@
 1	234	6936065393771114	E:/@-WorkSpase/Embedded/BootLoader/Application/EWARM/Application/Obj/Application/User/Core/main.o	7beb95d0a376839b
 240	300	6936065394469246	E:/@-WorkSpase/Embedded/BootLoader/Application/EWARM/Application/Exe/Application.out	5d7e8a72c2f4ab36
 319	328	6936065394818313	E:/@-WorkSpase/Embedded/BootLoader/Application/EWARM/Application/Exe/Application.hex	c9bfc60f61f95b3
+<<<<<<< HEAD
 1	262	6941014599339446	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/EWARM/startup_stm32f103xb.o	b53e2060cc6d3ba2
 200	555	6941014602092088	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/gpio.o	17393c1898a04527
 203	601	6941014602351397	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/crc.o	71306f33c88c08e6
@@ -117,3 +118,46 @@
 2	263	6941043928827054	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/main.o	3626ea9694701b9c
 271	338	6941043929609227	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	5012880e94a1f5ae
 367	375	6941043930048041	E:/@-WorkSpase/Embedded/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	58300ac80ef4d69d
+=======
+774	936	6938294233109778	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/EWARM/startup_stm32f103xb.o	9e4250b1123c0c9a
+828	1243	6938294236309597	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/crc.o	c40b3888d332f372
+841	1279	6938294236409596	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/stm32f1xx_hal_msp.o	7187ed0a4c52ee56
+1	1384	6938294236509601	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/gpio.o	462561445a72d087
+855	1412	6938294236709578	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/i2c.o	f3e750bb40cfe72a
+903	1443	6938294236709578	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/stm32f1xx_it.o	79af2eae08ed902b
+941	1477	6938294237109553	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/CMSIS/system_stm32f1xx.o	b0cfdbabe50df120
+868	1506	6938294236909555	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/usart.o	a6adc562a75d322
+1337	1853	6938294242409253	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_crc.o	6037b9dfb310fb1e
+1459	1913	6938294242809220	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal.o	6d6a5c9be79801f7
+1489	1947	6938294242709240	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_gpio_ex.o	6ab95ca99b06a33
+1424	1984	6938294243109213	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_cortex.o	17e709528ab9c14f
+1258	2043	6938294243209210	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_exti.o	f906ce3e072b3161
+1291	2074	6938294244009153	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_flash.o	794d6d747c798d6
+1519	2129	6938294244509127	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_gpio.o	cb0e7f4477e76d1a
+1396	2194	6938294245609064	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_dma.o	d037b8ffb2cd16f1
+2144	2529	6938294249108869	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_tim_ex.o	22baf11834206136
+2000	2600	6938294249908821	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_pwr.o	e859f4508b0bd379
+2087	2631	6938294250008812	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_rcc_ex.o	fdf0ac36779398c4
+2211	2659	6938294250408796	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_tim.o	1df2c772d3ab1404
+1963	2695	6938294250908759	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_flash_ex.o	cbc288409e22b28c
+1928	2792	6938294251908699	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_rcc.o	5a1dcfad47f9e18a
+2055	3310	6938294257108401	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_uart.o	7f255a73a9f03194
+1867	4960	6938294273407650	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_i2c.o	d273fe620983ebc9
+3	482	6938294397900474	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/main.o	db54d3fb70d86952
+494	808	6938294401200286	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	3241b4ce4a1ec394
+846	893	6938294402200232	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	3d5674d17f45e523
+3	480	6938294493594888	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/main.o	db54d3fb70d86952
+492	679	6938294495594889	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	3241b4ce4a1ec394
+718	763	6938294496594842	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	3d5674d17f45e523
+3	192	6938294804677193	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	3241b4ce4a1ec394
+230	275	6938294805677189	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	3d5674d17f45e523
+3	1443	6938322371293172	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/main.o	db54d3fb70d86952
+1454	1715	6938322374093000	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	3241b4ce4a1ec394
+1758	1821	6938322375292800	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	3d5674d17f45e523
+4	743	6938480268797201	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/main.o	db54d3fb70d86952
+755	890	6938480270322438	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	3241b4ce4a1ec394
+931	968	6938480271216874	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	3d5674d17f45e523
+3	865	6938486414387974	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Obj/Application/User/Core/main.o	db54d3fb70d86952
+877	997	6938486415726303	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.out	3241b4ce4a1ec394
+1038	1063	6938486416511506	E:/Practical-Project/Embedded/Custom_BootLoaders/STM32_Custom_BootLoader_UART/Application/EWARM/Application/Exe/Application.hex	3d5674d17f45e523
+>>>>>>> 3831ada184fb707c389b21c64c547f811064e1c7

@@ -26,6 +26,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 void bootLoaderProcessing(void)
 {
+<<<<<<< HEAD
     HAL_UART_Transmit(&huart2,"Start bootLoader Processing!\r\n",30,1000);
     HAL_UART_Receive_IT(&huart2, blBuffer, 2);
     while(1)
@@ -61,6 +62,28 @@ void bootLoaderProcessing(void)
         
         HAL_IWDG_Refresh(&hiwdg);
     }
+=======
+//  HAL_UART_Transmit(&huart2,"Start bootLoader Processing!\r\n",30,1000);
+//  while(1)
+//  {
+//    reciveSize = 0;
+//    HAL_UART_Receive(&huart2,&blBuffer[0],1,HAL_MAX_DELAY);
+//    reciveSize = blBuffer[0] - '0';
+//    HAL_UART_Receive(&huart2,&blBuffer[1],reciveSize,HAL_MAX_DELAY);
+//    switch (blBuffer[1])
+//    {
+//      case BL_GET_VERSION:
+//      {
+//        bootLoaderGetVersionProcessing();
+//      }break;
+//      default:
+//      {
+//        memset(blBuffer,0,BUFFER_SIZE);
+//      }break;
+//      
+//    }
+//  }
+>>>>>>> 3831ada184fb707c389b21c64c547f811064e1c7
 }
 /*
 return BootLoader Version

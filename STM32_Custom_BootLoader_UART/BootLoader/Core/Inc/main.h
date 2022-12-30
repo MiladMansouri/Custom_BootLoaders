@@ -41,7 +41,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+void jumpToApplcation(void);
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
