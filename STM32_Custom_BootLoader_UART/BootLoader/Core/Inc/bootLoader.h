@@ -3,7 +3,7 @@
 #include "stdint.h"
 
 #define BUFFER_SIZE 255
-#define BL_VERSION 0x10
+#define BL_VERSION 10
 
 typedef enum
 {

@@ -37,9 +37,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
             HAL_UART_AbortReceive_IT(&huart2);
         }
         HAL_UART_Receive_IT(&huart2, Rx_data, 1);
+//      receiveBuffer[Rx_indx++] = Rx_data[0]; 
+//      if(__HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE))
+//      {
+//        __NOP();
+//      }
+//      else
+//      {
+//        __NOP();
+//      }
     }
     else
     {}
+    
 }
 /**
   * @brief  Process Boot Loader Commends
@@ -49,11 +59,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   */
 void bootLoaderProcessing(void)
 {
-    HAL_UART_Transmit(&huart2,"Start bootLoader Processing!\r\n",30,1000);
+//    ansBuffer[0] = 0x40U;
+//    HAL_UART_Transmit(&huart2,ansBuffer,1,200);
     HAL_UART_Receive_IT(&huart2, receiveBuffer, 1);
     while(1)
     {
-        if(receiveComplete == 1)
+      if(receiveComplete == 1)
+      //if(receiveBuffer[0]!= 0x00)
         {
             switch (receiveBuffer[0])// switch on UID
             {
