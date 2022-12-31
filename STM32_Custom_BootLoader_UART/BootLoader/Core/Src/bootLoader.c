@@ -5,51 +5,27 @@
 #include "iwdg.h"
 #include <string.h>
 
-uint8_t Rx_data[2] = {0}, receiveBuffer[BUFFER_SIZE] = {0};
-uint8_t receiveComplete = 0, Rx_indx = 0;
-
+uint8_t receiveTempBuffer[BUFFER_SIZE] = {0};
+uint8_t receiveBuffer[BUFFER_SIZE] = {0};
 uint8_t ansBuffer[BUFFER_SIZE];
 
-//XModem
+uint8_t receiveComplete = 0;
+
 /**
   * @brief  UART Interrupt Call Back
   * @note   None
   * @param  None
   * @retval None
   */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
     if(huart->Instance == USART2)
     {
-        if (Rx_indx == 0) 
-        {
-            for (uint8_t i = 0; i < BUFFER_SIZE; i++) 
-                receiveBuffer[i] = 0; 
-        }else{} 
-        if(Rx_data[0] != '\n') //if received data different from ascii 13 (enter)
-        {
-            receiveBuffer[Rx_indx++] = Rx_data[0];     //add data to receiveBuffer
-        }
-        else            //if received data = 13
-        {
-            Rx_indx = 0;
-            receiveComplete = 1; //received complete, data is ready to read
-            HAL_UART_AbortReceive_IT(&huart2);
-        }
-        HAL_UART_Receive_IT(&huart2, Rx_data, 1);
-//      receiveBuffer[Rx_indx++] = Rx_data[0]; 
-//      if(__HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE))
-//      {
-//        __NOP();
-//      }
-//      else
-//      {
-//        __NOP();
-//      }
+      memcpy(receiveBuffer,receiveTempBuffer,Size);  
+      receiveComplete = 1;
     }
     else
     {}
-    
 }
 /**
   * @brief  Process Boot Loader Commends
@@ -59,13 +35,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   */
 void bootLoaderProcessing(void)
 {
-//    ansBuffer[0] = 0x40U;
-//    HAL_UART_Transmit(&huart2,ansBuffer,1,200);
-    HAL_UART_Receive_IT(&huart2, receiveBuffer, 1);
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart2,receiveTempBuffer,BUFFER_SIZE);
+    __HAL_DMA_DISABLE_IT(huart2.hdmarx, DMA_IT_HT);
     while(1)
     {
       if(receiveComplete == 1)
-      //if(receiveBuffer[0]!= 0x00)
         {
             switch (receiveBuffer[0])// switch on UID
             {
@@ -93,8 +67,7 @@ void bootLoaderProcessing(void)
                 default:
                 {
                     sendNegetiveAnswer();
-                }break;
-                
+                }break;  
             }
         }
         else
@@ -185,7 +158,6 @@ static void sendPositiveAnswer(uint8_t size)
         receiveBuffer[index + 1] = ansBuffer[index];
     }
     HAL_UART_Transmit(&huart2,receiveBuffer,size + 1,500);
-    HAL_UART_Transmit(&huart2,"\n",1,500);
     readyForNewCommand();
 }
 
@@ -199,7 +171,6 @@ static void sendNegetiveAnswer(void)
 {
     receiveBuffer[0] = 0x7F;
     HAL_UART_Transmit(&huart2,receiveBuffer,1,500);
-    HAL_UART_Transmit(&huart2,"\n",1,500);
     readyForNewCommand();
 }
 /**
@@ -212,5 +183,5 @@ static void readyForNewCommand(void)
 {
     memset(receiveBuffer,0,BUFFER_SIZE);
     receiveComplete = 0;
-    HAL_UART_Receive_IT(&huart2, Rx_data, 1);
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart2,receiveTempBuffer,BUFFER_SIZE);
 }
