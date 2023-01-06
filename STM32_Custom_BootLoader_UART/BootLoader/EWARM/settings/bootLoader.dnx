@@ -13,7 +13,7 @@
         <MemConfigValue>C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm\CONFIG\debugger\ST\STM32F103C8.ddf</MemConfigValue>
     </PlDriver>
     <DebugChecksum>
-        <Checksum>547856209</Checksum>
+        <Checksum>3459160390</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -78,9 +78,25 @@
         <FreqHi>0</FreqHi>
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
+    <array_types>
+        <Fmt0>uint8_t[255]	4	0</Fmt0>
+    </array_types>
     <watch_formats>
-        <Fmt0>{W}1:cid	4	0</Fmt0>
+        <Fmt0>{W}1:calc_crc_value	4	0</Fmt0>
+        <Fmt1>{W}1:calculate_crc	4	0</Fmt1>
+        <Fmt2>{W}1:calculate_crc1	4	0</Fmt2>
+        <Fmt3>{W}1:calculate_crc2	4	0</Fmt3>
+        <Fmt4>{W}1:cid	4	0</Fmt4>
+        <Fmt5>{W}1:receive_crc_value	4	0</Fmt5>
+        <Fmt6>{W}1:uwCRCValue	4	0</Fmt6>
     </watch_formats>
+    <DriverProfiling>
+        <Enabled>0</Enabled>
+        <Mode>3</Mode>
+        <Graph>0</Graph>
+        <Symbiont>0</Symbiont>
+        <Exclusions />
+    </DriverProfiling>
     <Trace2>
         <Enabled>0</Enabled>
         <ShowSource>0</ShowSource>
@@ -130,13 +146,6 @@
         <LoggingEnabled>_ 0</LoggingEnabled>
         <LogFile>_ ""</LogFile>
     </TermIOLog>
-    <DriverProfiling>
-        <Enabled>0</Enabled>
-        <Mode>3</Mode>
-        <Graph>0</Graph>
-        <Symbiont>0</Symbiont>
-        <Exclusions />
-    </DriverProfiling>
     <LogFile>
         <LoggingEnabled>_ 0</LoggingEnabled>
         <LogFile>_ "$PROJ_DIR$\LogFile1.log"</LogFile>
@@ -146,8 +155,7 @@
         <mode>0</mode>
     </DisassembleMode>
     <Breakpoints2>
-        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Core\Src\bootLoader.c}.24.7" 0 0 1 "" 0 "" 0</Bp0>
-        <Count>1</Count>
+        <Count>0</Count>
     </Breakpoints2>
     <Aliases>
         <Count>0</Count>

@@ -147,7 +147,7 @@ int main(void)
   while (1)
   {
     //HAL_UART_Transmit(&huart2,"BootLoader!\r\n",15,1000);
-    bootLoaderProcessing();
+    boot_loader_processing();
 
     /* USER CODE END WHILE */
 

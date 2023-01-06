@@ -210,3 +210,6 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+
+__pycache__
+.idea
