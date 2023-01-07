@@ -4,7 +4,7 @@
         <stlinkserialNo>441D13002C135737334D4E00</stlinkserialNo>
         <stlinkfoundProbes />
         <stlinkResetStyle>0</stlinkResetStyle>
-        <stlinkResetStrategy>2</stlinkResetStrategy>
+        <stlinkResetStrategy>0</stlinkResetStrategy>
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
         <CStepIntDis>_ 0</CStepIntDis>
     </StLinkDriver>
@@ -13,7 +13,7 @@
         <MemConfigValue>C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm\CONFIG\debugger\ST\STM32F103C8.ddf</MemConfigValue>
     </PlDriver>
     <DebugChecksum>
-        <Checksum>3459160390</Checksum>
+        <Checksum>251387311</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -44,7 +44,7 @@
     <SWOTraceHWSettings>
         <OverrideDefaultClocks>0</OverrideDefaultClocks>
         <CpuClock>72000000</CpuClock>
-        <ClockAutoDetect>0</ClockAutoDetect>
+        <ClockAutoDetect>1</ClockAutoDetect>
         <ClockWanted>2000000</ClockWanted>
         <JtagSpeed>2000000</JtagSpeed>
         <Prescaler>36</Prescaler>
@@ -87,8 +87,9 @@
         <Fmt2>{W}1:calculate_crc1	4	0</Fmt2>
         <Fmt3>{W}1:calculate_crc2	4	0</Fmt3>
         <Fmt4>{W}1:cid	4	0</Fmt4>
-        <Fmt5>{W}1:receive_crc_value	4	0</Fmt5>
-        <Fmt6>{W}1:uwCRCValue	4	0</Fmt6>
+        <Fmt5>{W}1:pBuffer[index]	4	0</Fmt5>
+        <Fmt6>{W}1:receive_crc_value	4	0</Fmt6>
+        <Fmt7>{W}1:uwCRCValue	4	0</Fmt7>
     </watch_formats>
     <DriverProfiling>
         <Enabled>0</Enabled>
@@ -155,7 +156,8 @@
         <mode>0</mode>
     </DisassembleMode>
     <Breakpoints2>
-        <Count>0</Count>
+        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_crc.c}.236.3" 0 0 1 "" 0 "" 0</Bp0>
+        <Count>1</Count>
     </Breakpoints2>
     <Aliases>
         <Count>0</Count>

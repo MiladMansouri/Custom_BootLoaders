@@ -1,15 +1,12 @@
-import binascii
-import struct
 import Commands as cmd
 import serial.tools.list_ports
-from threading import Thread
 from time import sleep
 
 ports = serial.tools.list_ports.comports()
 for port in ports:
     print(port[0])
 
-ser_port = "COM6"
+ser_port = "COM3"
 ser_baud_rate = 115200
 ser = serial.Serial(port=ser_port, baudrate=ser_baud_rate, timeout=0, parity=serial.PARITY_NONE)
 
@@ -23,6 +20,7 @@ def calculate_crc(buff):
                 crc = (crc << 1) ^ 0x04c11db7
             else:
                 crc = (crc << 1)
+
     return [((crc & 0xFF000000) >> 24), ((crc & 0x00FF0000) >> 16), ((crc & 0x0000FF00) >> 8),
             (crc & 0x000000FF)]
 
@@ -40,9 +38,9 @@ def create_msg(command=None, data=None):
 def print_hex(buffer, sr):
     """sr -> send(1) receive(0)"""
     if sr:
-        print('-> :', end=' ')
+        print('->> :', end=' ')
     else:
-        print('<- :', end=' ')
+        print('<<- :', end=' ')
     for data in buffer:
         print(hex(data), end=' ')
     print(' ')
@@ -62,32 +60,75 @@ def process_command(command=None, data=None):
         if receive_data[1] == (command + 0x40):
             print("successful")
             print_hex(receive_data, 0)
+            return receive_data
         else:
             print("Unsuccessful")
             print_hex(receive_data, 0)
+            return None
     else:
-        print('Time Out Error', end='')
-    print(' ')
+        print('Time Out Error')
+    return None
+
+
+def flash_erasing():
+    address = input("please enter start address: 0x")
+    if not address.isdigit():
+        print("Please Enter Correct address \r\n")
+    else:
+        start_address = int(address, 16)
+        num = input("please enter number of page to erase: ")
+        if not num.isdigit():
+            print("Please Enter Correct page number \r\n")
+        else:
+            page_number = int(num)
+            print(start_address, page_number)
+            data = process_command(command=cmd.cmd_flash_erase,
+                                   data=[((start_address & 0xFF000000) >> 24),
+                                         ((start_address & 0x00FF0000) >> 16),
+                                         ((start_address & 0x0000FF00) >> 8),
+                                         (start_address & 0x000000FF),
+                                         page_number])
+
+
+def program_flash():
+    data = process_command(command=cmd.cmd_flash_program,
+                           data=[0x10, 0x11, 0x50, 0x40, 0x8, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80])
 
 
 def main_process():
     while True:
+        print("<<< <<< START >>> >>>")
         input_command = input("Please Enter Command: ")
         if not input_command.isdigit():
             print("Please Enter Correct Command \r\n")
         else:
             command = int(input_command)
-            if command == 1:
+            if command == 0:
+                process_command(command=cmd.cmd_jump_to_bootloader, data=[0x0a])
+            elif command == 1:
                 process_command(command=cmd.cmd_jump_to_application)
             elif command == 2:
                 process_command(command=cmd.cmd_get_version)
             elif command == 3:
-                process_command(command=cmd.cmd_get_cid)
+                data = process_command(command=cmd.cmd_get_mcu_device_id_code)
             elif command == 4:
-                process_command(command=cmd.cmd_get_rdp)
+                data = process_command(command=cmd.cmd_get_rdp)
+                if data[2] == 0xa5:
+                    print("OB_RDP_LEVEL_0")
+                elif data[2] == 0x00:
+                    print("OB_RDP_LEVEL_1")
             elif command == 5:
-                process_command(command=cmd.cmd_get_flash_size)
+                data = process_command(command=cmd.cmd_get_flash_size, data=[0x10, 0x20, 0x30, 0x40])
+                # flash_size = data[2] << 8 | data[3]
+                # print(f'{flash_size} Kb')
+            elif command == 6:
+                data = process_command(command=cmd.cmd_get_mcu_unique_id)
+            elif command == 7:
+                flash_erasing()
+            elif command == 8:
+                program_flash()
             sleep(0.1)
+            print("<<< <<< END >>> >>> ")
 
 
 main_process()

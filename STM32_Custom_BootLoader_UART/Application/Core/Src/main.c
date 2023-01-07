@@ -103,7 +103,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 //      for (uint8_t i = 0; i < bufferSize; i++) 
 //        Rx_Buffer[i] = 0; 
 //    }   
-    if(Rx_data[0] != '\n') //if received data different from ascii 13 (enter)
+    if(Rx_data[0] != 0x0A) //if received data different from ascii 13 (enter)
     {
       Rx_Buffer[Rx_indx++] = Rx_data[0];     //add data to Rx_Buffer
     }
@@ -156,7 +156,7 @@ int main(void)
   /* USER CODE END 2 */
   HAL_IWDG_Refresh(&hiwdg);
   HAL_UART_Receive_IT(&huart2, Rx_data, 1);
-  HAL_UART_Transmit(&huart2,"Application Start\r\n",19,500);
+  //HAL_UART_Transmit(&huart2,"Application Start\r\n",19,500);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -165,9 +165,12 @@ int main(void)
     if(Transfer_cplt == 1)
     {
       Transfer_cplt = 0;
-      if(Rx_Buffer[0] == 0x40)
+      
+      if(Rx_Buffer[1] == 0x11)
       {
-        HAL_UART_Transmit(&huart2,"Jump To BootLoader\r\n",20,500);
+        Rx_Buffer[0] = 2;
+        Rx_Buffer[1]+= 0x40;
+        HAL_UART_Transmit(&huart2,Rx_Buffer,2,1000);
        *(volatile uint8_t*)0x20004FFF = 0x20U;
        *(volatile uint8_t*)0x20004FFE = 0x30U;
        *(volatile uint8_t*)0x20004FFD = 0x40U;
