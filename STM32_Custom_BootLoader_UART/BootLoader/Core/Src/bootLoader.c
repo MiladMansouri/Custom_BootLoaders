@@ -290,29 +290,46 @@ static void flash_erase_process(void)
 * @note   None
 * @param  None
 * @retval None
+* @frame : ------------------------------------------------------
+*          [len][cmd][data_len][address 0-3][data 0-239][crc 0-3]
+*          -------------------------------------------------------
 */
-static void flash_program_process(void)
+static uint8_t flash_program_process(void)
 {
   if(clculate_crc() == CRC_OK)
   {
     uint32_t address = 0;
     uint8_t data_length = 0;
     //uint32_t data = 0;
-    address = (usart_buffer[2] << 24) |
-              (usart_buffer[3] << 16) |
-              (usart_buffer[4] << 8)  |
-              (usart_buffer[5] << 0);
-    data_length = usart_buffer[6];
-    //HAL_FLASH_Unlock();
+    address = (usart_buffer[3] << 24) |
+              (usart_buffer[4] << 16) |
+              (usart_buffer[5] << 8)  |
+              (usart_buffer[6] << 0);
+    data_length = usart_buffer[2];
+    
     
     for(int index = 0; index < data_length; index ++)
     {
       ansBuffer[index] = usart_buffer[index + 7];
     }
-    //HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,0x0800800,0xFF00FF00);
-    
+    //HAL_FLASH_Unlock();
+    for(int i = 0; i < data_length ; i+=4)
+    {
+      if(HAL_OK == HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,0x0800800,0xFF00FF00))
+      {
+        
+      }
+      else
+      {
+        send_negetive_answer();
+        return 0;
+      }
+    }
     //HAL_FLASH_Lock();
-    send_positive_answer(data_length); 
+    
+    
+    
+    send_positive_answer(ANS_FLASH_PROGRAM); 
   }
   else
   {

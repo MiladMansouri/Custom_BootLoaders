@@ -5,6 +5,7 @@
 #define BUFFER_SIZE 255
 #define BL_MAJOR_VERSION 1.0
 #define BL_MINOR_VERSION 2.0
+#define APPLICATION_BASE_ADDRESS 0x08008000
 typedef enum
 {
   CMD_JUMP_TO_APP = 0x11U,
@@ -44,7 +45,7 @@ static void get_mcu_flash_protection_level(void);
 static void get_mcu_flash_size_in_kb(void);
 static void get_mcu_unique_id_code(void);
 static void flash_erase_process(void);
-static void flash_program_process(void);
+static uint8_t flash_program_process(void);
   
 static Te_CRC_Check clculate_crc(void);
 static void send_positive_answer(uint8_t size);

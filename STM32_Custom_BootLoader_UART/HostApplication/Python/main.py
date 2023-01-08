@@ -1,13 +1,17 @@
+from past.builtins import xrange
 import Commands as cmd
 import serial.tools.list_ports
 from time import sleep
+import os
+
+file_path = "E:\\Practical-Project\\Embedded\\Custom_BootLoaders\\STM32_Custom_BootLoader_UART\\BootLoader\\EWARM\\bootLoader\\Exe\\bootLoader.bin"
+ser_port = "COM3"
+ser_baud_rate = 115200
 
 ports = serial.tools.list_ports.comports()
 for port in ports:
     print(port[0])
 
-ser_port = "COM3"
-ser_baud_rate = 115200
 ser = serial.Serial(port=ser_port, baudrate=ser_baud_rate, timeout=0, parity=serial.PARITY_NONE)
 
 
@@ -90,9 +94,54 @@ def flash_erasing():
                                          page_number])
 
 
+def get_all_elements_in_list_of_lists(list_e):
+    count = 0
+    for element in list_e:
+        count += len(element)
+    return count
+
+
 def program_flash():
-    data = process_command(command=cmd.cmd_flash_program,
-                           data=[0x10, 0x11, 0x50, 0x40, 0x8, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80])
+    data_buffer = []
+    temp_data = []
+    index = 0
+
+    f = open(file_path, 'rb')
+    size = os.path.getsize(file_path)
+
+    for i in range(size):
+        temp_data.append(int.from_bytes(f.read(1), 'big'))
+
+    if size % 4:
+        for i in range((4 - (size % 4))):
+            temp_data.append(0x00)
+
+    for i in range(0, len(temp_data), 4):
+        data_buffer.append(temp_data[i + 3])
+        data_buffer.append(temp_data[i + 2])
+        data_buffer.append(temp_data[i + 1])
+        data_buffer.append(temp_data[i + 0])
+
+    chunks = [data_buffer[x:x + 240] for x in xrange(0, len(data_buffer), 240)]
+    send_array = []
+    data_buffer.clear()
+
+    for index, item in enumerate(chunks):
+        # send_array.clear()
+        add = (index * 240)
+        send_array = [len(item),
+                      ((add & 0xFF000000) >> 24),
+                      ((add & 0x00FF0000) >> 16),
+                      ((add & 0x0000FF00) >> 8),
+                      (add & 0x000000FF)]
+        send_array.extend(item)
+        data_buffer.append(send_array)
+    number_of_data = len(data_buffer)
+    number_of_writes = 0
+    programing_flag = True
+    while programing_flag:
+        ans = process_command(cmd.cmd_flash_program, data_buffer[number_of_writes])
+        programing_flag = False
 
 
 def main_process():
@@ -118,9 +167,9 @@ def main_process():
                 elif data[2] == 0x00:
                     print("OB_RDP_LEVEL_1")
             elif command == 5:
-                data = process_command(command=cmd.cmd_get_flash_size, data=[0x10, 0x20, 0x30, 0x40])
-                # flash_size = data[2] << 8 | data[3]
-                # print(f'{flash_size} Kb')
+                data = process_command(command=cmd.cmd_get_flash_size)
+                flash_size = data[2] << 8 | data[3]
+                print(f'{flash_size} Kb')
             elif command == 6:
                 data = process_command(command=cmd.cmd_get_mcu_unique_id)
             elif command == 7:
