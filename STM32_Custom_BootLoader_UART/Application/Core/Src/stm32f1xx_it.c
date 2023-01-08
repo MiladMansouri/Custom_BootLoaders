@@ -185,7 +185,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
   static uint32_t cnt = 0;
   cnt ++;
-  if(cnt > 100)
+  if(cnt > 1000)
   {
     cnt = 0;
     HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);

@@ -72,10 +72,12 @@ void boot_loader_processing(void)
         {
           flash_erase_process();
         }break;
+        
         case CMD_FLASH_PROGRAM:
         {
           flash_program_process();
         }break;
+        
         default:
         {
           send_negetive_answer();
@@ -292,48 +294,48 @@ static void flash_erase_process(void)
 * @retval None
 * @frame : ------------------------------------------------------
 *          [len][cmd][data_len][address 0-3][data 0-239][crc 0-3]
+*             0   1      2         3-4-5-6     7--
 *          -------------------------------------------------------
 */
-static uint8_t flash_program_process(void)
+static void flash_program_process(void)
 {
-  if(clculate_crc() == CRC_OK)
-  {
     uint32_t address = 0;
     uint8_t data_length = 0;
-    //uint32_t data = 0;
-    address = (usart_buffer[3] << 24) |
-              (usart_buffer[4] << 16) |
-              (usart_buffer[5] << 8)  |
-              (usart_buffer[6] << 0);
-    data_length = usart_buffer[2];
+    uint32_t * p_data;
+  if(clculate_crc() == CRC_OK)
+  {
+    data_length = (usart_buffer[2]/4);
+    address = (((usart_buffer[3] << 24) |
+               (usart_buffer[4] << 16) |
+               (usart_buffer[5] << 8)  |
+               (usart_buffer[6] << 0)) + 
+               APPLICATION_BASE_ADDRESS);
     
-    
-    for(int index = 0; index < data_length; index ++)
+    p_data = ((uint32_t*)(&usart_buffer[7]));
+     
+    HAL_FLASH_Unlock();
+    for(int i = 0; i < data_length ; i++)
     {
-      ansBuffer[index] = usart_buffer[index + 7];
-    }
-    //HAL_FLASH_Unlock();
-    for(int i = 0; i < data_length ; i+=4)
-    {
-      if(HAL_OK == HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,0x0800800,0xFF00FF00))
+      HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,address,*p_data);
+      p_data++;
+        address += 0x04u;
+      if(1)
       {
         
       }
       else
       {
-        send_negetive_answer();
-        return 0;
+        //send_negetive_answer();
+        //return 0;
       }
     }
-    //HAL_FLASH_Lock();
-    
-    
-    
+    HAL_FLASH_Lock();
     send_positive_answer(ANS_FLASH_PROGRAM); 
+    //return 0;
   }
   else
   {
-    send_negetive_answer();
+    //send_negetive_answer();
   }
 }
 

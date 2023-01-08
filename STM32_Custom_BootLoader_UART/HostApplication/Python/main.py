@@ -1,11 +1,10 @@
-from past.builtins import xrange
 import Commands as cmd
 import serial.tools.list_ports
 from time import sleep
 import os
 
-file_path = "E:\\Practical-Project\\Embedded\\Custom_BootLoaders\\STM32_Custom_BootLoader_UART\\BootLoader\\EWARM\\bootLoader\\Exe\\bootLoader.bin"
-ser_port = "COM3"
+file_path = "Application.bin"
+ser_port = "COM6"
 ser_baud_rate = 115200
 
 ports = serial.tools.list_ports.comports()
@@ -41,12 +40,18 @@ def create_msg(command=None, data=None):
 
 def print_hex(buffer, sr):
     """sr -> send(1) receive(0)"""
+    i = 0
     if sr:
         print('->> :', end=' ')
     else:
         print('<<- :', end=' ')
     for data in buffer:
-        print(hex(data), end=' ')
+        print(hex(data), end=' ', sep=',')
+        i += 1
+        if i > 20:
+            print(' ')
+            print('->>', end=' ')
+            i = 0
     print(' ')
 
 
@@ -117,12 +122,12 @@ def program_flash():
             temp_data.append(0x00)
 
     for i in range(0, len(temp_data), 4):
-        data_buffer.append(temp_data[i + 3])
-        data_buffer.append(temp_data[i + 2])
-        data_buffer.append(temp_data[i + 1])
         data_buffer.append(temp_data[i + 0])
-
-    chunks = [data_buffer[x:x + 240] for x in xrange(0, len(data_buffer), 240)]
+        data_buffer.append(temp_data[i + 1])
+        data_buffer.append(temp_data[i + 2])
+        data_buffer.append(temp_data[i + 3])
+    
+    chunks = [data_buffer[x:x + 240] for x in range(0, len(data_buffer), 240)]
     send_array = []
     data_buffer.clear()
 
@@ -136,12 +141,34 @@ def program_flash():
                       (add & 0x000000FF)]
         send_array.extend(item)
         data_buffer.append(send_array)
-    number_of_data = len(data_buffer)
+    number_of_data = len(data_buffer) - 1
     number_of_writes = 0
+    page = 1024
+    ################################################################
+    print("################################################################")
+    start_address = 0x08008000
+    page_number = 16
+    process_command(command=cmd.cmd_flash_erase,
+                    data=[((start_address & 0xFF000000) >> 24),
+                          ((start_address & 0x00FF0000) >> 16),
+                          ((start_address & 0x0000FF00) >> 8),
+                          (start_address & 0x000000FF),
+                          page_number])
+    print("################################################################")
+    ##############################################################
+
     programing_flag = True
     while programing_flag:
+        print(f">>>>> {number_of_data} *** {number_of_writes} <<<<<")
         ans = process_command(cmd.cmd_flash_program, data_buffer[number_of_writes])
-        programing_flag = False
+        if ans is not None and ans[1] == 0x66:
+            number_of_writes += 1
+            if number_of_writes > number_of_data:
+                programing_flag = False
+                print("🎉🎉 Flash Programed Successfully 🎉🎉")
+        else:
+            programing_flag = False
+            print("⛔⛔ Abort Flash Programing ⛔⛔")
 
 
 def main_process():
