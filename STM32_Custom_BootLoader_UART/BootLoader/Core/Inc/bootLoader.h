@@ -36,6 +36,14 @@ typedef enum
     CRC_OK = 1U
 }Te_CRC_Check;
 
+typedef enum
+{
+  ERROR_CRC_CHECK = 0x70,
+  ERROR_COMMAND_NOT_SUPPORT = 0x71,
+  ERROR_FLASH_ERASE = 0x72,
+  ERROR_FLASH_PROGRAM = 0x73,
+}Te_BL_Error;
+
 void boot_loader_processing(void);
 
 static void jump_to_application(void);
@@ -49,6 +57,6 @@ static void flash_program_process(void);
   
 static Te_CRC_Check clculate_crc(void);
 static void send_positive_answer(uint8_t size);
-static void send_negetive_answer(void);
+static void send_negetive_answer(Te_BL_Error error);
 static void ready_for_new_command(void);
 #endif

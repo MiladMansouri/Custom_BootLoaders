@@ -26,6 +26,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   }
   else
   {}
+  
 }
 /**
 * @brief  Process Boot Loader Commends
@@ -36,7 +37,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 void boot_loader_processing(void)
 {
   HAL_UARTEx_ReceiveToIdle_DMA(&huart2,receiveTempBuffer,BUFFER_SIZE);
-  __HAL_DMA_DISABLE_IT(huart2.hdmarx, DMA_IT_HT);
+  __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
   while(1)
   {
     if(receiveComplete == 1)
@@ -80,7 +81,7 @@ void boot_loader_processing(void)
         
         default:
         {
-          send_negetive_answer();
+          send_negetive_answer(ERROR_COMMAND_NOT_SUPPORT);
         }break;  
       }
     }
@@ -110,7 +111,7 @@ static void get_version(void)
   }
   else
   {
-    send_negetive_answer();
+    send_negetive_answer(ERROR_CRC_CHECK);
   }
   
 }
@@ -133,7 +134,7 @@ static void jump_to_application(void)
    }
    else
    {
-     send_negetive_answer();
+     send_negetive_answer(ERROR_CRC_CHECK);
    }
 }
 
@@ -157,7 +158,7 @@ static void get_mcu_device_id_code(void)
   }
   else
   {
-    send_negetive_answer();
+    send_negetive_answer(ERROR_CRC_CHECK);
   }
   
 }
@@ -195,7 +196,7 @@ static void get_mcu_unique_id_code(void)
   }
   else
   {
-    send_negetive_answer();
+    send_negetive_answer(ERROR_CRC_CHECK);
   }
 }
 /**
@@ -217,7 +218,7 @@ static void get_mcu_flash_protection_level(void)
   }
   else
   {
-    send_negetive_answer();
+    send_negetive_answer(ERROR_CRC_CHECK);
   }
 }
 /**
@@ -237,7 +238,7 @@ static void get_mcu_flash_size_in_kb(void)
   }
   else
   {
-    send_negetive_answer();
+    send_negetive_answer(ERROR_CRC_CHECK);
   }
 }
 /**
@@ -278,12 +279,12 @@ static void flash_erase_process(void)
     }
     else
     {
-      send_negetive_answer();
+      send_negetive_answer(ERROR_FLASH_ERASE);
     }
   }
   else
   {
-    send_negetive_answer();
+    send_negetive_answer(ERROR_CRC_CHECK);
   }
 }
 
@@ -299,43 +300,41 @@ static void flash_erase_process(void)
 */
 static void flash_program_process(void)
 {
-    uint32_t address = 0;
-    uint8_t data_length = 0;
-    uint32_t * p_data;
+  uint32_t address = 0;
+  uint8_t data_length = 0;
+  uint32_t * p_data;
+  HAL_StatusTypeDef state;
   if(clculate_crc() == CRC_OK)
   {
     data_length = (usart_buffer[2]/4);
     address = (((usart_buffer[3] << 24) |
-               (usart_buffer[4] << 16) |
-               (usart_buffer[5] << 8)  |
-               (usart_buffer[6] << 0)) + 
-               APPLICATION_BASE_ADDRESS);
+                (usart_buffer[4] << 16) |
+                (usart_buffer[5] << 8)  |
+                (usart_buffer[6] << 0)) + 
+                 APPLICATION_BASE_ADDRESS);
     
     p_data = ((uint32_t*)(&usart_buffer[7]));
-     
     HAL_FLASH_Unlock();
     for(int i = 0; i < data_length ; i++)
     {
-      HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,address,*p_data);
-      p_data++;
-        address += 0x04u;
-      if(1)
+      state = HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,address,*p_data);
+      if(state == HAL_OK)
       {
-        
+          p_data++;
+          address += 0x04u;
       }
       else
       {
-        //send_negetive_answer();
-        //return 0;
+        send_negetive_answer(ERROR_FLASH_PROGRAM);
+        break;
       }
     }
     HAL_FLASH_Lock();
     send_positive_answer(ANS_FLASH_PROGRAM); 
-    //return 0;
   }
   else
   {
-    //send_negetive_answer();
+    send_negetive_answer(ERROR_CRC_CHECK);
   }
 }
 
@@ -366,10 +365,10 @@ static void send_positive_answer(uint8_t size)
 * @param  None
 * @retval None
 */
-static void send_negetive_answer(void)
+static void send_negetive_answer(Te_BL_Error error)
 {
   usart_buffer[0] = 2;
-  usart_buffer[1] = 0x7F;
+  usart_buffer[1] = error;
   HAL_UART_Transmit(&huart2,usart_buffer,2,500);
   ready_for_new_command();
 }
@@ -382,9 +381,11 @@ static void send_negetive_answer(void)
 static void ready_for_new_command(void)
 {
   memset(usart_buffer,0,BUFFER_SIZE);
+  memset(ansBuffer,0,BUFFER_SIZE);
   receiveComplete = 0;
   receiveLength = 0;
   HAL_UARTEx_ReceiveToIdle_DMA(&huart2,receiveTempBuffer,BUFFER_SIZE);
+  __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
 }
 /**
 * @brief  Check The CRC
@@ -410,7 +411,6 @@ static Te_CRC_Check clculate_crc(void)
                       (usart_buffer[crc_index+1] << 16) |
                       (usart_buffer[crc_index+2] << 8)  |
                       (usart_buffer[crc_index+3] << 0);
-  
   if(receive_crc_value == calc_crc_value)
   {
     crc_status = CRC_OK;
