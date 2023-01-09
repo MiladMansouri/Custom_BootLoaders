@@ -24,8 +24,8 @@
         <stlinkResetStrategy>0</stlinkResetStrategy>
     </StLinkDriver>
     <ArmDriver>
-        <EnforceMemoryConfiguration>1</EnforceMemoryConfiguration>
         <EnableCache>0</EnableCache>
+        <EnforceMemoryConfiguration>1</EnforceMemoryConfiguration>
     </ArmDriver>
     <DebugChecksum>
         <Checksum>19889134</Checksum>

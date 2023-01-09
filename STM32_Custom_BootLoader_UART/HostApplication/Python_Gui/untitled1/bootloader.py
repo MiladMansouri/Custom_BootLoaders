@@ -21,7 +21,7 @@ class BootLoader(QObject):
                                  baudrate=baud_rate,
                                  timeout=0,
                                  parity=serial.PARITY_NONE)
-
+    @Slot(str)
     def test(self, a):
         return a
 

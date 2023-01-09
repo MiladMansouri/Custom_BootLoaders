@@ -1,0 +1,5 @@
+{
+    "ewp": "${workspaceFolder}\\STM32_Custom_BootLoader_UART\\Application\\EWARM\\Application.ewp",
+    "configuration": "Application",
+    "toolchain": "C:\\\\Program Files\\\\IAR Systems\\\\Embedded Workbench 9.1"
+}
