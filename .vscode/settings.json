@@ -1,3 +1,0 @@
-{
-  "cmake.sourceDirectory": "${workspaceFolder}/STM32_Custom_BootLoader_UART/HostApplication/QT"
-}
