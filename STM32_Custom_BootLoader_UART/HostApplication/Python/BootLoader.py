@@ -22,9 +22,6 @@ class BootLoader(QObject):
                                  timeout=0,
                                  parity=serial.PARITY_NONE)
 
-    def test(self, a):
-        return a
-
     def calculate_crc(self, buff):
         crc = 0xFFFFFFFF
         for data in buff:
@@ -180,8 +177,19 @@ class BootLoader(QObject):
 
     def main_process(self):
         while True:
-            print("<<< <<< START >>> >>>")
-            input_command = input("Please Enter Command: ")
+            input_command = input("""
+----------------------------------------            
+----- *** Please Enter Command *** -----
+---------------------------------------- 
+    1️⃣ Jump To Application
+    2️⃣ Get Bootloader Version
+    3️⃣ Get Mcu Device Id Code
+    4️⃣ Get Mcu RDP
+    5️⃣ Get Mcu Flash Size
+    6️⃣ Get Mcu Unique Identification Code
+    7️⃣ Erase MCU Flash
+    8️⃣ Program MCU Flash   
+""")
             if not input_command.isdigit():
                 print("Please Enter Correct Command \r\n")
             else:
@@ -210,6 +218,8 @@ class BootLoader(QObject):
                     self.flash_erasing()
                 elif command == 8:
                     self.program_flash()
+                else:
+                    print("Please Enter Correct Command \r\n")
                 sleep(0.1)
                 print("<<< <<< END >>> >>> ")
 
